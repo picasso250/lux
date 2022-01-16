@@ -40,8 +40,13 @@ func GetImages(html, imgClass string, urlHandler func(string) string) (string, [
 // Title get title
 func Title(doc *goquery.Document) string {
 	var title string
+	h1 := doc.Find("h1").First()
+	t, e := h1.Attr("title")
+	if !e {
+		t = h1.Text()
+	}
 	title = strings.Replace(
-		strings.TrimSpace(doc.Find("h1").First().Text()), "\n", "", -1,
+		strings.TrimSpace(t), "\n", "", -1,
 	)
 	if title == "" {
 		// Bilibili: Some movie page got no h1 tag
